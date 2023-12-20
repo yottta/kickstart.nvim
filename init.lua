@@ -67,6 +67,23 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
+  -- test debugging in go
+  "mfussenegger/nvim-dap",  -- debug addapter protocol
+  "leoluz/nvim-dap-go", -- debug adapter for go/dlv
+  {
+    "rcarriga/nvim-dap-ui",
+    keys = {
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle()
+        end,
+        silent = true,
+      },
+    },
+    opts = {
+    },
+  },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
@@ -205,6 +222,7 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  { 'taybart/b64.nvim' },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -219,6 +237,15 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
    { import = 'custom.plugins' },
 }, {})
+
+vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
+vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
+vim.keymap.set('n', '<F9>', require 'dap'.continue)
+vim.keymap.set('n', '<F8>', require 'dap'.step_over)
+vim.keymap.set('n', '<F7>', require 'dap'.step_into)
+vim.keymap.set('n', '<S-F8>', require 'dap'.step_out)
+vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
+
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -389,7 +416,15 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+-- NeoTree keymaps
 vim.keymap.set('n', '<leader>ts', '<Cmd>Neotree toggle<CR>', { desc = 'Open [N]eo[t]ree' })
+
+-- TODO figure it out why this is not working
+-- vim.keymap.set('v', 'C-r', '<cmd>lua require("dapui").eval()<CR>', { desc = '[D]apUI [E]val' })
+-- B64 plugin
+vim.keymap.set('n', '<leader>be', require('b64').encode, { desc = '[B]ase64 [E]ncode' })
+vim.keymap.set('n', '<leader>bd', require('b64').decode, { desc = '[B]ase64 [D]ecode' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -459,6 +494,8 @@ local servers = {
     },
   },
 }
+-- go/dlv debugging adapter configuration
+require("dap-go").setup()
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -532,6 +569,21 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+vim.g.copilot_filetypes = {
+    ["*"] = false,
+    ["javascript"] = true,
+    ["typescript"] = true,
+    ["lua"] = false,
+    ["rust"] = true,
+    ["c"] = true,
+    ["c#"] = true,
+    ["c++"] = true,
+    ["go"] = true,
+    ["python"] = true,
+  }
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
