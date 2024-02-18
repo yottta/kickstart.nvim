@@ -486,7 +486,7 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-  pkgbuild_language_server = {},
+  bashls = {},
 
   lua_ls = {
     Lua = {
@@ -522,6 +522,7 @@ mason_lspconfig.setup_handlers {
     }
   end
 }
+require'lspconfig'.bashls.setup{}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
