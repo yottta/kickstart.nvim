@@ -178,17 +178,6 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
-  },
-
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
@@ -255,7 +244,6 @@ vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.number = true
 vim.wo.relativenumber = true
 
 -- Enable mouse mode
@@ -416,9 +404,6 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
--- NeoTree keymaps
-vim.keymap.set('n', '<leader>ts', '<Cmd>Neotree toggle<CR>', { desc = 'Open [N]eo[t]ree' })
 
 -- TODO figure it out why this is not working
 -- vim.keymap.set('v', 'C-r', '<cmd>lua require("dapui").eval()<CR>', { desc = '[D]apUI [E]val' })
