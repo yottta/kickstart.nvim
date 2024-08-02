@@ -67,23 +67,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
-  -- test debugging in go
-  "mfussenegger/nvim-dap", -- debug addapter protocol
-  "leoluz/nvim-dap-go",    -- debug adapter for go/dlv
-  {
-    "rcarriga/nvim-dap-ui",
-    keys = {
-      {
-        "<leader>du",
-        function()
-          require("dapui").toggle()
-        end,
-        silent = true,
-      },
-    },
-    opts = {
-    },
-  },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
@@ -227,15 +210,6 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
-vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', numhl = '' })
-vim.keymap.set('n', '<F9>', require 'dap'.continue)
-vim.keymap.set('n', '<F8>', require 'dap'.step_over)
-vim.keymap.set('n', '<F7>', require 'dap'.step_into)
-vim.keymap.set('n', '<S-F8>', require 'dap'.step_out)
-vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
-
-
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -247,7 +221,7 @@ vim.o.hlsearch = false
 vim.wo.relativenumber = true
 
 -- Enable mouse mode
-vim.o.mouse = nil
+vim.o.mouse = ""
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -407,8 +381,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- TODO figure it out why this is not working
--- vim.keymap.set('v', 'C-r', '<cmd>lua require("dapui").eval()<CR>', { desc = '[D]apUI [E]val' })
 -- B64 plugin
 vim.keymap.set('n', '<leader>be', require('b64').encode, { desc = '[B]ase64 [E]ncode' })
 vim.keymap.set('n', '<leader>bd', require('b64').decode, { desc = '[B]ase64 [D]ecode' })
@@ -482,9 +454,6 @@ local servers = {
     },
   },
 }
--- go/dlv debugging adapter configuration
-require("dap-go").setup()
-
 -- Setup neovim lua configuration
 require('neodev').setup()
 
