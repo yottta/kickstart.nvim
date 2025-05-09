@@ -255,6 +255,8 @@ vim.o.termguicolors = true
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- Enables paste mode to force keeping the format of the pasted content
+vim.keymap.set({ 'n' }, '<F2>', ':set paste<CR>')
 -- Format
 vim.keymap.set({ 'n' }, '<Space>fm', ':Format<CR>')
 
