@@ -138,14 +138,14 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
+--   {
+--     -- Theme inspired by Atom
+--     'navarasu/onedark.nvim',
+--     priority = 1000,
+--     config = function()
+--       vim.cmd.colorscheme 'onedark'
+--     end,
+--   },
 
   {
     -- Set lualine as statusline
@@ -462,9 +462,17 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
+  automatic_installation = false,
   ensure_installed = vim.tbl_keys(servers),
 }
 
+-- TODO Upgrade mason packages to v2
+-- Due to the issue in here: https://github.com/mason-org/mason-lspconfig.nvim/issues/545
+-- I had to lock mason-lspconfig and mason-nvim versions to the latest one
+-- before v2.
+-- V2 removed a lot from the LSP functionalities (like on_attach
+-- triggering) because nvim 11 added native support for it.
+-- I need to find some time and dig on how the new nvim API is working.
 mason_lspconfig.setup_handlers {
   function(server_name)
     require('lspconfig')[server_name].setup {

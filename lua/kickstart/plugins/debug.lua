@@ -20,6 +20,9 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+
+    -- Library for IO in nvim. Required by nvim-dap-ui
+    'nvim-neotest/nvim-nio'
   },
   config = function()
     local dap = require 'dap'
