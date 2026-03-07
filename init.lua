@@ -645,6 +645,12 @@ require('lazy').setup({
           },
         },
       }
+      -- To enable `.tofu` file extension detection, we need to map it first:
+      vim.filetype.add {
+        extension = {
+          tofu = 'opentofu',
+        },
+      }
 
       -- Ensure the servers and tools above are installed
       --
