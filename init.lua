@@ -491,6 +491,8 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
+          -- NOTE yottta: to run commands like the one below directly from nvim, you need to run these through lua, like:
+          -- :lua vim.lsp.log.set_level 'trace'
           -- vim.lsp.log.set_level 'trace'
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
@@ -505,6 +507,10 @@ require('lazy').setup({
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          --
+          -- Rename the variable under your cursor.
+          --  Most Language Servers support renaming across files, etc.
+          map('gh', vim.lsp.buf.hover, '[H]over')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
